@@ -1,0 +1,2 @@
+model_checkpoint_path: "CUBLOC_M01_r2.wt"
+all_model_checkpoint_paths: "CUBLOC_M01_r2.wt"
