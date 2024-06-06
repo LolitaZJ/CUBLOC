@@ -1,7 +1,7 @@
 # CUBLOC
-A 3D U-Net Network to Achieve Earthquake Location 
+A 3D U-Net Network to Achieve Earthquake Location       
 Author: Ji Zhang  
-Date: 2023.11.30  
+Date: 2024.6.6  
 Version 1.0.0  
 
 # CUBLOC   
