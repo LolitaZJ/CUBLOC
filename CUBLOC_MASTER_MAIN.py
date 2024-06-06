@@ -239,9 +239,12 @@ if __name__ == '__main__':
         # ========================= bulid model======================#
         wave_input=args.input_size
         # 3D u-net
-        # model=unet_model_3d(wave_input,1,batch_normalization=False) 
+        model=unet_model_3d(wave_input,1,batch_normalization=False) 
         # our model
-        model=wu_model_3d(wave_input, 1,batch_normalization=False,fl=True)
+        # fl: True; con: True -> no skip in the first layer;
+        # fl: False; con: True -> all skip;
+        # fl: False; con: False -> no skip.
+        # model=wu_model_3d(wave_input, 1,batch_normalization=False,fl=True,con=True)
         # model.summary()
     
         # ========================= model fit======================#
