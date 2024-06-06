@@ -51,7 +51,7 @@ import pandas as pd
 import h5py
 import argparse
 #=============================================================#
-from CUBLOC_model import unet_model_3d
+from CUBLOC_model import unet_model_3d,wu_model_3d
 from CUBLOC_utils import plot_3d,plt_3d_wave,plot_loss,DataGenerator_CULOC_New,eva_model,plt_2d_wave
 
 # In[] gpu and configures
@@ -238,7 +238,10 @@ if __name__ == '__main__':
     if args.mode=='train':
         # ========================= bulid model======================#
         wave_input=args.input_size
-        model=unet_model_3d(wave_input,1,batch_normalization=False)
+        # 3D u-net
+        # model=unet_model_3d(wave_input,1,batch_normalization=False) 
+        # our model
+        model=wu_model_3d(wave_input, 1,batch_normalization=False,fl=True)
         # model.summary()
     
         # ========================= model fit======================#
