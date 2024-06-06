@@ -191,7 +191,64 @@ def unet_model_3d(input_shape, n_labels, batch_normalization=False, out=100,init
     # model.compile(loss='mse',optimizer=tf.keras.optimizers.Adam(learning_rate=initial_learning_rate),metrics=['accuracy'])
  
     return model
+
+# In[]
+def wu_model_3d(input_shape, n_labels, batch_normalization=False, out=100,initial_learning_rate=0.00001,con=True,fl=False):
+    """
+    input_shape:without batch_size,(img_height,img_width,img_depth)
+    metrics:
+    """
  
+    inputs = Input(input_shape,name='input')
+ 
+    down_layer = []
+ 
+    layer = inputs
+    depths=3
+    
+    for depth in range(depths):
+        fliters=4*2**depth
+        layer = res_block_v2_3d(layer, fliters, batch_normalization=batch_normalization)
+        down_layer.append(layer)
+        layer = MaxPooling3D(pool_size=[2, 2, 2], strides=[2, 2, 2],padding='same')(layer)
+        # print(str(layer.get_shape()))
+    
+    # bottle_layer
+    layer = res_block_v2_3d(layer, fliters*2, batch_normalization=batch_normalization)
+    print(str(layer.get_shape()))
+ 
+    for depth in range(depths-1,-1,-1):  
+        if fl:
+            if depth==0:
+                layer = up_and_concate_wu(layer, down_layer[depth],con=False)
+            else:
+                layer = up_and_concate_wu(layer, down_layer[depth])
+            
+        else:
+            layer = up_and_concate_wu(layer, down_layer[depth],con=con)
+        
+        layer = res_block_v2_3d(layer, 4*2**depth, batch_normalization=batch_normalization)
+        print(str(layer.get_shape()))
+ 
+
+    # score_layer
+    layer = Conv3D(n_labels, [1, 1, 1], strides=[1, 1, 1])(layer)
+    print(str(layer.get_shape()))
+    lshape=layer.get_shape().as_list()
+    
+    layer = Reshape((lshape[1],lshape[2],lshape[3]))(layer)
+    layer = Conv2D(out, 1)(layer)
+    
+    # softmax
+    outputs = Activation('relu',name='output')(layer)
+    print(str(outputs.get_shape()))
+    
+
+    model = Model(inputs=inputs, outputs=outputs)
+ 
+    # model.compile(loss='mse',optimizer=tf.keras.optimizers.Adam(learning_rate=initial_learning_rate),metrics=['accuracy'])
+ 
+    return model
  
 def res_block_v2_3d(input_layer, out_n_filters, batch_normalization=False, kernel_size=[3, 3, 3], stride=[1, 1, 1],
                     padding='same'):
