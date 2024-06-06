@@ -71,10 +71,10 @@ The model name
 ### Run
 
 ` Train`
->     python APP_Run.py --mode='train' --s_range [x1,x2,y1,y2] --data_path /your/hdf5/data/path/ --csv_path /your/csv/data/path/ --model_name CUBLOC_M01
+>     python CUBLOC_MASTER_MAIN.py --mode='train' --s_range [x1,x2,y1,y2] --data_path /your/hdf5/data/path/ --csv_path /your/csv/data/path/ --model_name CUBLOC_M01
 
 `Test`
->     python APP_Run.py --mode='test' --s_range [x1,x2,y1,y2] --data_path /your/hdf5/data/path/ --data_path /your/csv/data/path/ --model_name CUBLOC_M01
+>     python CUBLOC_MASTER_MAIN.py --mode='test' --s_range [x1,x2,y1,y2] --data_path /your/hdf5/data/path/ --data_path /your/csv/data/path/ --model_name CUBLOC_M01
 
 ------------------------------------------- 
 ### Model
